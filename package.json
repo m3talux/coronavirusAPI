@@ -1,0 +1,26 @@
+{
+  "name": "coronavirusapi",
+  "version": "1.0.0",
+  "description": "Coronavirus statistics API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "quick.db": "^7.0.0-b22",
+    "request": "^2.88.2"
+  },
+  "keywords": [
+    "coronavirus",
+    "covid-19",
+    "api",
+    "statistics"
+  ]
+}
