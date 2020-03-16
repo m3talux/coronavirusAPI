@@ -17,6 +17,9 @@
     "quick.db": "^7.0.0-b22",
     "request": "^2.88.2"
   },
+  "repository": {
+    "url": "https://github.com/alex-khoury/coronavirusAPI"
+  },
   "keywords": [
     "coronavirus",
     "covid-19",
