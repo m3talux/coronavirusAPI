@@ -5,8 +5,11 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const db = require("quick.db");
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 app.use(cors());
+
+dotenv.config();
 
 const getAllStatistics = setInterval(async () => {
     let response;
@@ -92,7 +95,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
                 // parse with hyperlink
                 country = cell.children[0].next.children[0].data || "";
             }
-            result.push({ country: country.trim() || "" });
+            result.push({country: country.trim() || ""});
         }
         // get cases
         if (i % totalColumns === casesColIndex) {
@@ -156,16 +159,16 @@ const getAllStatisticsPerCountry = setInterval(async () => {
     console.log("Updated The Countries", result);
 }, 600000);
 
-const listener = app.listen(4000, function() {
+const listener = app.listen(process.env.PORT, function () {
     console.log("Your app is listening on port " + listener.address().port);
 });
 
-app.get("/all", async function(req, res) {
+app.get("/all", async function (req, res) {
     let all = await db.fetch("all");
     res.send(all);
 });
 
-app.get("/countries", async function(req, res) {
+app.get("/countries", async function (req, res) {
     let countries = await db.fetch("countries");
     res.send(countries);
 });
