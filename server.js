@@ -63,11 +63,11 @@ const getAllStatistics = setInterval(async () => {
         }
     });
 
-    db.set("all", result);
     const d = new Date();
     result.created = d.toYMD();
     result.updated = d.toYMD();
-    await axios.put(process.env.ENDPOINT + '/worldwide', result);
+    const worldwideController = require('./app/controllers/worldwide.controller');
+    worldwideController.createOrUpdate(result);
 }, 30000);
 
 const getAllStatisticsPerCountry = setInterval(async () => {
@@ -191,18 +191,13 @@ const getAllStatisticsPerCountry = setInterval(async () => {
     }
 
     db.set("countries", result);
-    console.log("Updated The Countries", result);
+    console.log('updated countries');
 }, 30000);
 
 require('./app/routes/worldwide.routes')(app);
 
 const listener = app.listen(process.env.PORT, function () {
     console.log("Your app is listening on port " + listener.address().port);
-});
-
-app.get("/all", async function (req, res) {
-    let all = await db.fetch("all");
-    res.send(all);
 });
 
 app.get("/countries", async function (req, res) {
