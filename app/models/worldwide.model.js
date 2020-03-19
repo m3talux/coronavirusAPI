@@ -61,4 +61,15 @@ Worldwide.getToday = (result) => {
     });
 };
 
+Worldwide.getAll = (result) => {
+    sql.query('SELECT * FROM worldwide', (err, res) => {
+        if (err) {
+            console.log('error: ', err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    })
+};
+
 module.exports = Worldwide;

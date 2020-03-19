@@ -38,3 +38,29 @@ exports.createOrUpdate = (req, res) => {
         }
     });
 };
+
+exports.getAll = (req, res) => {
+    Worldwide.getAll((err, data) => {
+        if (err) {
+            res.status(500).send({
+                message:
+                    err.message || 'Server error'
+            });
+        } else res.send(data);
+    });
+};
+
+exports.getToday = (req, res) => {
+    Worldwide.getToday((err, data) => {
+        if (err) {
+            res.status(500).send({
+                message:
+                    err.message || 'Server error'
+            });
+        } else if (data === null) {
+            res.status(404).send({
+                message: 'No data found for today'
+            });
+        } else res.send(data);
+    });
+};
