@@ -7,8 +7,9 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 
-(function() {
+(function () {
     Date.prototype.toYMD = Date_toYMD;
+
     /**
      * @return {string}
      */
@@ -66,7 +67,7 @@ const getAllStatistics = setInterval(async () => {
     const d = new Date();
     result.created = d.toYMD();
     result.updated = d.toYMD();
-    await axios.put('http://localhost:4000/worldwide', result);
+    await axios.put(process.env.ENDPOINT + '/worldwide', result);
 }, 30000);
 
 const getAllStatisticsPerCountry = setInterval(async () => {
