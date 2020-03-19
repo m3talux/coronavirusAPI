@@ -1,13 +1,23 @@
 # Coronavirus API
 Coronavirus live statistics API from trusted sources.
 
-## All Cases Statistics
-[GET] - https://api-covid.herokuapp.com/all
+## Worldwide Historical Statistics 
+[GET] - https://api-covid.herokuapp.com/worldwide
 
-Retrieves worldwide statistics.
+Historical data starts from February 2nd, 2020.
 
-## Cases Per Country Statistics
+## Worldwide Today Statistics 
+[GET] - https://api-covid.herokuapp.com/worldwide/today
+
+## Countries Statistics
 [GET] - https://api-covid.herokuapp.com/coutries
 
-Retrieves statistics per country.
-This Endpoint returns a list of countries with their statistics.
+## Per Country Statistics
+[GET] - https://api-covid.herokuapp.com/coutries/<country_name>
+
+Example: https://api-covid.herokuapp.com/coutries/china
+
+### Credits
+The web scraping functionality is a fork from https://github.com/javieraviles/covidAPI
+
+This project adds access to historical data saved in a proper database and updated every 30 seconds.
