@@ -10,12 +10,12 @@ Historical data starts from February 2nd, 2020.
 [GET] - https://api-covid.herokuapp.com/worldwide/today
 
 ## Countries Statistics
-[GET] - https://api-covid.herokuapp.com/coutries
+[GET] - https://api-covid.herokuapp.com/countries
 
 ## Per Country Statistics
-[GET] - https://api-covid.herokuapp.com/coutries/<country_name>
+[GET] - https://api-covid.herokuapp.com/countries/<country_name>
 
-Example: https://api-covid.herokuapp.com/coutries/china
+Example: https://api-covid.herokuapp.com/countries/china
 
 ### Credits
 The web scraping functionality is a fork from https://github.com/javieraviles/covidAPI
