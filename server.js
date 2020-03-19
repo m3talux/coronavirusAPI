@@ -1,13 +1,35 @@
 const express = require("express");
 const app = express();
-const request = require("request");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const db = require("quick.db");
 const cors = require('cors');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+
+(function() {
+    Date.prototype.toYMD = Date_toYMD;
+    /**
+     * @return {string}
+     */
+    function Date_toYMD() {
+        let year, month, day;
+        year = String(this.getFullYear());
+        month = String(this.getMonth() + 1);
+        if (month.length === 1) {
+            month = "0" + month;
+        }
+        day = String(this.getDate());
+        if (day.length === 1) {
+            day = "0" + day;
+        }
+        return year + "-" + month + "-" + day;
+    }
+})();
 
 app.use(cors());
+
+app.use(bodyParser.json());
 
 dotenv.config();
 
@@ -41,8 +63,11 @@ const getAllStatistics = setInterval(async () => {
     });
 
     db.set("all", result);
-    console.log("Updated The Cases", result);
-}, 600000);
+    const d = new Date();
+    result.created = d.toYMD();
+    result.updated = d.toYMD();
+    await axios.put('http://localhost:4000/worldwide', result);
+}, 30000);
 
 const getAllStatisticsPerCountry = setInterval(async () => {
     let response;
@@ -60,7 +85,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
 
     // get HTML and parse death rates
     const html = cheerio.load(response.data);
-    const countriesTable = html("table#main_table_countries");
+    const countriesTable = html("table#main_table_countries_today");
     const countriesTableCells = countriesTable
         .children("tbody")
         .children("tr")
@@ -76,6 +101,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
     const curedColIndex = 5;
     const activeColIndex = 6;
     const criticalColIndex = 7;
+    const casesPerOneMillionColIndex = 8;
 
     // minus totalColumns to skip last row, which is total
     for (let i = 0; i < countriesTableCells.length - totalColumns; i += 1) {
@@ -99,7 +125,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
         // get cases
         if (i % totalColumns === casesColIndex) {
-            let cases = cell.children[0].data || "";
+            let cases = cell.children.length !== 0 ? cell.children[0].data : "";
             result[result.length - 1].cases = parseInt(
                 cases.trim().replace(/,/g, "") || "0",
                 10
@@ -107,7 +133,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
         // get today cases
         if (i % totalColumns === todayCasesColIndex) {
-            let cases = cell.children[0].data || "";
+            let cases = cell.children.length !== 0 ? cell.children[0].data : "";
             result[result.length - 1].todayCases = parseInt(
                 cases.trim().replace(/,/g, "") || "0",
                 10
@@ -115,7 +141,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
         // get deaths
         if (i % totalColumns === deathsColIndex) {
-            let deaths = cell.children[0].data || "";
+            let deaths = cell.children.length !== 0 ? cell.children[0].data : "";
             result[result.length - 1].deaths = parseInt(
                 deaths.trim().replace(/,/g, "") || "0",
                 10
@@ -123,7 +149,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
         // get today deaths
         if (i % totalColumns === todayDeathsColIndex) {
-            let deaths = cell.children[0].data || "";
+            let deaths = cell.children.length !== 0 ? cell.children[0].data : "";
             result[result.length - 1].todayDeaths = parseInt(
                 deaths.trim().replace(/,/g, "") || "0",
                 10
@@ -131,7 +157,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
         // get cured
         if (i % totalColumns === curedColIndex) {
-            let cured = cell.children[0].data || 0;
+            let cured = cell.children.length !== 0 ? cell.children[0].data : "";
             result[result.length - 1].recovered = parseInt(
                 cured.trim().replace(/,/g, "") || 0,
                 10
@@ -139,7 +165,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
         // get active
         if (i % totalColumns === activeColIndex) {
-            let cured = cell.children[0].data || 0;
+            let cured = cell.children.length !== 0 ? cell.children[0].data : "";
             result[result.length - 1].active = parseInt(
                 cured.trim().replace(/,/g, "") || 0,
                 10
@@ -147,9 +173,17 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
         // get critical
         if (i % totalColumns === criticalColIndex) {
-            let critical = cell.children[0].data || "";
+            let critical = cell.children.length !== 0 ? cell.children[0].data : "";
             result[result.length - 1].critical = parseInt(
                 critical.trim().replace(/,/g, "") || "0",
+                10
+            );
+        }
+        // get total cases per one million population
+        if (i % totalColumns === casesPerOneMillionColIndex) {
+            let casesPerOneMillion = cell.children.length !== 0 ? cell.children[0].data : "";
+            result[result.length - 1].casesPerOneMillion = parseInt(
+                casesPerOneMillion.trim().replace(/,/g, "") || "0",
                 10
             );
         }
@@ -157,7 +191,9 @@ const getAllStatisticsPerCountry = setInterval(async () => {
 
     db.set("countries", result);
     console.log("Updated The Countries", result);
-}, 600000);
+}, 30000);
+
+require('./app/routes/worldwide.routes')(app);
 
 const listener = app.listen(process.env.PORT, function () {
     console.log("Your app is listening on port " + listener.address().port);
