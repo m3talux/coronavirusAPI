@@ -67,7 +67,7 @@ const getAllStatistics = setInterval(async () => {
     result.updated = d.toYMD();
     const worldwideController = require('./app/controllers/worldwide.controller');
     worldwideController.createOrUpdate(result);
-}, 30000);
+}, 60000);
 
 const getAllStatisticsPerCountry = setInterval(async () => {
     let response;
@@ -197,7 +197,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         const countryController = require('./app/controllers/country.controller');
         countryController.createOrUpdate(res);
     }
-}, 30000);
+}, 60000);
 
 require('./app/routes/worldwide.routes')(app);
 require('./app/routes/country.routes')(app);

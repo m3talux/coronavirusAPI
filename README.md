@@ -40,4 +40,6 @@ Example: https://api-covid.herokuapp.com/countries/China/2020-03-20
 ### Credits
 The web scraping functionality is a fork from https://github.com/javieraviles/covidAPI
 
-This project adds access to historical data saved in a proper database and updated every 30 seconds.
+This project adds access to historical data saved in a proper database, and a fully working REST API.
+
+Data is updated every 60 seconds.
