@@ -22,7 +22,6 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mysql": "^2.18.1",
-    "quick.db": "^7.0.0-b22",
     "request": "^2.88.2"
   },
   "repository": {

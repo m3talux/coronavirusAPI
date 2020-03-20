@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 const cheerio = require("cheerio");
-const db = require("quick.db");
 const cors = require('cors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
@@ -190,29 +189,19 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
     }
 
-    db.set("countries", result);
-    console.log('updated countries');
+    for (let res of result) {
+        const d = new Date();
+        res.created = d.toYMD();
+        res.updated = d.toYMD();
+        console.log(res);
+        const countryController = require('./app/controllers/country.controller');
+        countryController.createOrUpdate(res);
+    }
 }, 30000);
 
 require('./app/routes/worldwide.routes')(app);
+require('./app/routes/country.routes')(app);
 
 const listener = app.listen(process.env.PORT, function () {
     console.log("Your app is listening on port " + listener.address().port);
-});
-
-app.get("/countries", async function (req, res) {
-    let countries = await db.fetch("countries");
-    res.send(countries);
-});
-
-app.get("/countries/:country", async function(req, res) {
-    let countries = await db.fetch("countries");
-    let country = countries.find(
-        e => e.country.toLowerCase().includes(req.params.country.toLowerCase())
-    );
-    if (!country) {
-        res.send("Country not found");
-        return;
-    }
-    res.send(country);
 });
