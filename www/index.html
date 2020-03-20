@@ -7,12 +7,14 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.semanticui.min.css">
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
 <div class="top-nav">
-    <h2 class="title">COVID-19 Statistics</h2>
+    <h2 id="title" class="title">COVID-19 Statistics</h2>
 </div>
 <div class="content">
     <div class="today-counter">
@@ -36,11 +38,23 @@
             <label class="small-title" id="today-recovered-percentage"></label>
         </div>
     </div>
-    <div class="card worldwide-chart">
-        <canvas id="worldwide-chart"></canvas>
+    <div class="charts-container">
+        <div class="card worldwide-chart">
+            <canvas id="worldwide-chart"></canvas>
+        </div>
+        <div>
+            <div class="card">
+                <label class="small-title">Expected today (Beta)</label>
+                <h3 class="value neutral" id="today-expected-cases"></h3>
+                <label class="small-title" id="today-expected-cases-percentage"></label>
+                <label class="small-title">This result is based purely and historical data and <strong>NOT</strong> real
+                    world settings. Please do not trust this number as it will only provide a logical outcome based on
+                    previous statistics.</label>
+            </div>
+        </div>
     </div>
     <div class="countries-table">
-        <table id="countries_table" class="display" style="width:100%">
+        <table id="countries_table" class="ui celled table" style="width:100%">
             <thead>
             <tr>
                 <th>Country</th>
@@ -59,6 +73,8 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.20/js/dataTables.semanticui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src="index.js"></script>
 </body>

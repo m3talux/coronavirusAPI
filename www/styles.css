@@ -44,6 +44,7 @@ html, body {
 
 .card .small-title {
     font-size: 0.8rem;
+    text-align: center;
 }
 
 .card .value {
@@ -60,7 +61,17 @@ html, body {
     color: #1e9f34;
 }
 
-.worldwide-chart, .countries-table {
+.card .neutral {
+    color: #ff9500;
+}
+
+.charts-container {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: 60% auto;
+}
+
+.charts-container, .countries-table {
     margin-top: 2rem;
 }
 
