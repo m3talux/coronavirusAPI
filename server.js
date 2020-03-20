@@ -193,7 +193,6 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         const d = new Date();
         res.created = d.toYMD();
         res.updated = d.toYMD();
-        console.log(res);
         const countryController = require('./app/controllers/country.controller');
         countryController.createOrUpdate(res);
     }
