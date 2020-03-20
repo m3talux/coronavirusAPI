@@ -5,6 +5,7 @@ const cheerio = require("cheerio");
 const cors = require('cors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 (function () {
     Date.prototype.toYMD = Date_toYMD;
@@ -28,6 +29,8 @@ const bodyParser = require('body-parser');
 })();
 
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, 'www')));
 
 app.use(bodyParser.json());
 

@@ -1,0 +1,70 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #1c1c1c;
+    background-color: #efeef1;
+}
+
+.top-nav {
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    padding: 0 1.4rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-nav .title {
+    font-size: 1.2rem;
+}
+
+.content {
+    padding: 1.4rem;
+}
+
+.content .today-counter {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: auto auto auto auto;
+}
+
+.card {
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.13);
+    padding: 1rem;
+    border-radius: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .small-title {
+    font-size: 0.8rem;
+}
+
+.card .value {
+    padding: 0;
+    margin: 0.6rem 0 0.2rem 0;
+    font-size: 1.4rem;
+}
+
+.card .negative {
+    color: #ff3a3f;
+}
+
+.card .positive {
+    color: #1e9f34;
+}
+
+.worldwide-chart, .countries-table {
+    margin-top: 2rem;
+}
+
+.worldwide-chart canvas {
+    width: 100%;
+    height: 28rem !important;
+}

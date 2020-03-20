@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Covid-19 | Statistics</title>
+    <base href="/">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="top-nav">
+    <h2 class="title">COVID-19 Statistics</h2>
+</div>
+<div class="content">
+    <div class="today-counter">
+        <div class="card">
+            <label class="small-title">Cases</label>
+            <h3 class="value" id="today-cases"></h3>
+        </div>
+        <div class="card">
+            <label class="small-title">Active</label>
+            <h3 class="value" id="today-active"></h3>
+            <label class="small-title" id="today-active-percentage"></label>
+        </div>
+        <div class="card">
+            <label class="small-title">Deaths</label>
+            <h3 class="value negative" id="today-deaths"></h3>
+            <label class="small-title" id="today-deaths-percentage"></label>
+        </div>
+        <div class="card">
+            <label class="small-title">Recovered</label>
+            <h3 class="value positive" id="today-recovered"></h3>
+            <label class="small-title" id="today-recovered-percentage"></label>
+        </div>
+    </div>
+    <div class="card worldwide-chart">
+        <canvas id="worldwide-chart"></canvas>
+    </div>
+    <div class="countries-table">
+        <table id="countries_table">
+            <thead>
+            <tr>
+                <th>Country</th>
+                <th>Cases</th>
+                <th>New Cases</th>
+                <th>Deaths</th>
+                <th>New Deaths</th>
+                <th>Total Recovered</th>
+                <th>Active Cases</th>
+                <th>Serious Cases</th>
+                <th>Total Cases/1M Population</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
