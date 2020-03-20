@@ -99,9 +99,9 @@ $(function () {
     function getTodayExpectedCases(result) {
         if (result.length > 1) {
             const lastCasesValue = result[result.length - 2].cases;
-            let variationPercentages = [];
+            const variationPercentages = [];
             let totalVariation = 0;
-            for (let i = 1; i < result.length - 2; i++) {
+            for (let i = 0; i < result.length - 2; i++) {
                 variationPercentages[i - 1] =
                     (Math.abs(result[i].cases - result[i + 1].cases) / result[i].cases) * (i / 10) * 100;
                 totalVariation += variationPercentages[i - 1];
