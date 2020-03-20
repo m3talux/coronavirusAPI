@@ -79,3 +79,17 @@ html, body {
     width: 100%;
     height: 28rem !important;
 }
+
+@media only screen and (max-device-width: 768px) {
+    html, body {
+        font-size: 12px;
+    }
+
+    .content .today-counter {
+        grid-template-columns: auto auto;
+    }
+
+    .charts-container {
+        grid-template-columns: auto;
+    }
+}
