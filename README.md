@@ -18,22 +18,22 @@ Historical data starts from March 20th, 2020.
 [GET] - https://api-covid.herokuapp.com/countries/today
 
 ## Countries Specific Date Statistics
-[GET] - https://api-covid.herokuapp.com/countries/historical/<date>
+[GET] - https://api-covid.herokuapp.com/countries/historical/{date}
 
 Example: https://api-covid.herokuapp.com/countries/historical/2020-03-20
 
 ## Per Country Historical Statistics
-[GET] - https://api-covid.herokuapp.com/countries/<country_name>
+[GET] - https://api-covid.herokuapp.com/countries/{country_name}
 
 Example: https://api-covid.herokuapp.com/countries/China
 
 ## Per Country Today Statistics
-[GET] - https://api-covid.herokuapp.com/countries/<country_name>/today
+[GET] - https://api-covid.herokuapp.com/countries/{country_name}/today
 
 Example: https://api-covid.herokuapp.com/countries/China/today
 
 ## Per Country Specific Date Statistics
-[GET] - https://api-covid.herokuapp.com/countries/<country_name>/<date>
+[GET] - https://api-covid.herokuapp.com/countries/{country_name}/{date}
 
 Example: https://api-covid.herokuapp.com/countries/China/2020-03-20
 
