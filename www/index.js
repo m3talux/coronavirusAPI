@@ -110,7 +110,6 @@ $(function () {
                 totalVariation += variationPercentages[i - 1];
                 importance += step;
             }
-            console.log(variationPercentages);
             const outlook = getTodayOutlook(variationPercentages);
             const percentageIncrease = totalVariation / variationPercentages.length;
 
