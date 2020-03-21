@@ -142,13 +142,21 @@ $(function () {
             generateOutlookChart(variationPercentages);
             const percentageIncrease = totalVariation / variationPercentages.length;
 
-            $('#today-expected-cases').html(Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100)));
             if (percentageIncrease > 0) {
-                $('#today-expected-cases-percentage').addClass('negative')
-                $('#today-expected-cases-percentage').html(' (+' + percentageIncrease.toFixed(2) + '%)');
+                $('#today-expected-cases').html(Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100)));
+                if (percentageIncrease > 0.0 && percentageIncrease < 5.0) {
+                    $('#today-expected-cases').addClass('neutral');
+                    $('#today-expected-cases-percentage').addClass('neutral');
+                } else if (percentageIncrease >= 5.0) {
+                    $('#today-expected-cases').addClass('negative');
+                    $('#today-expected-cases-percentage').addClass('negative');
+                }
+                $('#today-expected-cases-percentage').html('(+' + percentageIncrease.toFixed(2) + '%)');
             } else {
-                $('#today-expected-cases-percentage').addClass('positive')
-                $('#today-expected-cases-percentage').html(' (' + percentageIncrease.toFixed(2) + '%)');
+                $('#today-expected-cases').html(lastCasesValue);
+                $('#today-expected-cases-percentage').html('(0%)');
+                $('#today-expected-cases').addClass('positive');
+                $('#today-expected-cases-percentage').addClass('positive');
             }
             if (outlook > 0.9 && outlook < 1.1) {
                 $('#today-outlook').html('NEUTRAL');
