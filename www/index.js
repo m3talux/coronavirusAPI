@@ -26,8 +26,9 @@ $(function () {
         $('#title').html('COVID-19 Statistics as of ' + today);
     }, 1000);
 
-    const context = document.getElementById('worldwide-chart').getContext('2d');
-    let chart = new Chart(context, {
+    const contextWorldwide = document.getElementById('worldwide-chart').getContext('2d');
+    const contextOutlook = document.getElementById('outlook-chart').getContext('2d');
+    const worldWideChart = new Chart(contextWorldwide, {
         type: 'line',
         data: getWorldwideChartData(null),
         options: {
@@ -47,6 +48,33 @@ $(function () {
                     ticks: {
                         beginAtZero: true
                     }
+                }]
+            }
+        }
+    });
+    const outlookChart = new Chart(contextOutlook, {
+        type: 'line',
+        data: {
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    display: false,
+                    gridLines: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false
+                    },
                 }]
             }
         }
@@ -90,9 +118,9 @@ $(function () {
         success: function (result) {
             getTodayExpectedCases(result);
             const chartData = getWorldwideChartData(result);
-            chart.data.labels.push(...chartData.data.labels);
-            chart.data.datasets.push(...chartData.data.datasets);
-            chart.update();
+            worldWideChart.data.labels.push(...chartData.data.labels);
+            worldWideChart.data.datasets.push(...chartData.data.datasets);
+            worldWideChart.update();
         }
     });
 
@@ -111,6 +139,7 @@ $(function () {
                 importance += step;
             }
             const outlook = getTodayOutlook(variationPercentages);
+            generateOutlookChart(variationPercentages);
             const percentageIncrease = totalVariation / variationPercentages.length;
 
             $('#today-expected-cases').html(Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100)));
@@ -151,6 +180,30 @@ $(function () {
             }
             return outlook;
         } else return 1;
+    }
+
+    function generateOutlookChart(array) {
+        let outlook = 1.0;
+        const step = 1 / array.length;
+        const outlooks = [];
+        for (let i = 1; i < array.length; i++) {
+            if (array[i] > array [i - 1]) {
+                outlook += step;
+            } else if (array[i] < array[i - 1]) {
+                outlook -= step;
+            }
+            outlooks.push({x: i, y: Math.round(outlook * 1000) / 1000});
+        }
+        outlookChart.data.datasets.push({
+            label: 'Outlook',
+            data: outlooks,
+            fill: false,
+            borderColor: [
+                'rgb(82,200,255)',
+            ],
+            borderWidth: 2
+        });
+        outlookChart.update();
     }
 
     function getWorldwideChartData(data) {
