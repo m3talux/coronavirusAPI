@@ -71,7 +71,7 @@ html, body {
     grid-template-columns: 60% auto;
 }
 
-.charts-container, .countries-table {
+.charts-container, .countries-table, .outlook {
     margin-top: 2rem;
 }
 
