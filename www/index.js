@@ -129,18 +129,16 @@ $(function () {
             const lastCasesValue = result[result.length - 2].cases;
             const variationPercentages = [];
             let totalVariation = 0;
-            const step = 0.1;
+            const step = 1 / (result.length - 1);
             let importance = 1.0;
             for (let i = 1; i < result.length - 2; i++) {
-                const outlook = getTodayOutlook(variationPercentages);
                 variationPercentages[i - 1] =
-                    (Math.abs(result[i].cases - result[i + 1].cases) / result[i].cases) * outlook * importance * 100;
+                    (Math.abs(result[i].cases - result[i + 1].cases) / result[i].cases) * importance * 100;
                 totalVariation += variationPercentages[i - 1];
                 importance += step;
             }
             const outlook = getTodayOutlook(variationPercentages);
-            generateOutlookChart(variationPercentages);
-            const percentageIncrease = totalVariation / variationPercentages.length;
+            const percentageIncrease = totalVariation / variationPercentages.length * outlook;
 
             if (percentageIncrease > 0) {
                 $('#today-expected-cases').html(Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100)));
@@ -178,40 +176,28 @@ $(function () {
     function getTodayOutlook(array) {
         if (array.length > 1) {
             let outlook = 1.0;
-            const step = 1 / array.length;
+            const step = 0.1;
+            const outlooks = [];
             for (let i = 1; i < array.length; i++) {
                 if (array[i] > array [i - 1]) {
                     outlook += step;
                 } else if (array[i] < array[i - 1]) {
                     outlook -= step;
                 }
+                outlooks.push({x: i, y: Math.round(outlook * 1000) / 1000});
             }
+            outlookChart.data.datasets.push({
+                label: 'Outlook',
+                data: outlooks,
+                fill: false,
+                borderColor: [
+                    'rgb(82,200,255)',
+                ],
+                borderWidth: 2
+            });
+            outlookChart.update();
             return outlook;
         } else return 1;
-    }
-
-    function generateOutlookChart(array) {
-        let outlook = 1.0;
-        const step = 1 / array.length;
-        const outlooks = [];
-        for (let i = 1; i < array.length; i++) {
-            if (array[i] > array [i - 1]) {
-                outlook += step;
-            } else if (array[i] < array[i - 1]) {
-                outlook -= step;
-            }
-            outlooks.push({x: i, y: Math.round(outlook * 1000) / 1000});
-        }
-        outlookChart.data.datasets.push({
-            label: 'Outlook',
-            data: outlooks,
-            fill: false,
-            borderColor: [
-                'rgb(82,200,255)',
-            ],
-            borderWidth: 2
-        });
-        outlookChart.update();
     }
 
     function getWorldwideChartData(data) {
