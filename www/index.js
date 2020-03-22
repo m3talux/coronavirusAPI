@@ -131,6 +131,15 @@ $(function () {
     });
 
     function getTodayExpectedCases(result) {
+        $('#today-actual-cases').html(result.actualCasesValue);
+        $('#today-actual-cases-percentage').html('(+' + result.actualCasesGrowth + '%)');
+        if (result.actualCasesValue > result.expectedCases) {
+            $('#today-actual-cases').addClass('negative');
+            $('#today-actual-cases-percentage').addClass('negative');
+        } else {
+            $('#today-actual-cases').addClass('positive');
+            $('#today-actual-cases-percentage').addClass('positive');
+        }
         if (result.expectedCasesGrowth > 0) {
             $('#today-expected-cases').html(result.expectedCases);
             if (result.expectedCasesGrowth > 0.0 && result.expectedCasesGrowth < 5.0) {

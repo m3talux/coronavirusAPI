@@ -69,10 +69,23 @@ exports.getExpectedToday = (req, res) => {
                 }
                 const outlook = getTodayOutlook(variationPercentages);
                 const percentageIncrease = totalVariation / variationPercentages.length * outlook.outlookValue;
+                const expected = Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100));
+                const actualGrowth = Math.abs((lastCasesValue - data[data.length - 1].cases) / data[data.length - 1].cases) * 100;
+
+                if (data[data.length - 1].cases > expected) {
+                    outlook.outlookValue += 0.1;
+                    outlook.outlookArray.push({
+                        x: outlook.outlookArray.length + 1,
+                        y: Math.round(outlook.outlookValue * 100) / 100
+                    });
+                }
+
                 res.send({
-                    expectedCases: Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100)),
+                    expectedCases: expected,
                     expectedCasesGrowth: Math.round(percentageIncrease * 100) / 100,
                     lastCasesValue: lastCasesValue,
+                    actualCasesValue: data[data.length - 1].cases,
+                    actualCasesGrowth: Math.round(actualGrowth * 100) / 100,
                     outlookValue: Math.round(outlook.outlookValue * 100) / 100,
                     outLookArray: outlook.outlookArray
                 });

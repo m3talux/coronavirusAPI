@@ -42,6 +42,22 @@ html, body {
     align-items: center;
 }
 
+.card .row {
+    display: flex;
+    flex-direction: row;
+}
+
+.card .row div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .row div:nth-child(2) {
+    margin-left: 2rem;
+}
+
 .card .small-title {
     font-size: 0.8rem;
     text-align: center;
