@@ -9,6 +9,9 @@ Historical data starts from February 2nd, 2020.
 ## Worldwide Today Statistics 
 [GET] - https://api-covid.herokuapp.com/worldwide/today
 
+## Worldwide Today Predictions 
+[GET] - https://api-covid.herokuapp.com/worldwide/predictions
+
 ## Countries Historical Statistics
 [GET] - https://api-covid.herokuapp.com/countries
 

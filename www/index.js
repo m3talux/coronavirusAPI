@@ -116,7 +116,6 @@ $(function () {
     $.ajax({
         url: "/worldwide",
         success: function (result) {
-            getTodayExpectedCases(result);
             const chartData = getWorldwideChartData(result);
             worldWideChart.data.labels.push(...chartData.data.labels);
             worldWideChart.data.datasets.push(...chartData.data.datasets);
@@ -124,80 +123,55 @@ $(function () {
         }
     });
 
-    function getTodayExpectedCases(result) {
-        if (result.length > 1) {
-            const lastCasesValue = result[result.length - 2].cases;
-            const variationPercentages = [];
-            let totalVariation = 0;
-            const step = 1 / (result.length - 1);
-            let importance = 1.0;
-            for (let i = 1; i < result.length - 2; i++) {
-                variationPercentages[i - 1] =
-                    (Math.abs(result[i].cases - result[i + 1].cases) / result[i].cases) * importance * 100;
-                totalVariation += variationPercentages[i - 1];
-                importance += step;
-            }
-            const outlook = getTodayOutlook(variationPercentages);
-            const percentageIncrease = totalVariation / variationPercentages.length * outlook;
-
-            if (percentageIncrease > 0) {
-                $('#today-expected-cases').html(Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100)));
-                if (percentageIncrease > 0.0 && percentageIncrease < 5.0) {
-                    $('#today-expected-cases').addClass('neutral');
-                    $('#today-expected-cases-percentage').addClass('neutral');
-                } else if (percentageIncrease >= 5.0) {
-                    $('#today-expected-cases').addClass('negative');
-                    $('#today-expected-cases-percentage').addClass('negative');
-                }
-                $('#today-expected-cases-percentage').html('(+' + percentageIncrease.toFixed(2) + '%)');
-            } else {
-                $('#today-expected-cases').html(lastCasesValue);
-                $('#today-expected-cases-percentage').html('(0%)');
-                $('#today-expected-cases').addClass('positive');
-                $('#today-expected-cases-percentage').addClass('positive');
-            }
-            if (outlook > 0.9 && outlook < 1.1) {
-                $('#today-outlook').html('NEUTRAL');
-                $('#today-outlook').addClass('neutral');
-                $('#today-outlook-value').addClass('neutral');
-            } else if (outlook >= 1.1) {
-                $('#today-outlook').html('NEGATIVE');
-                $('#today-outlook').addClass('negative');
-                $('#today-outlook-value').addClass('negative');
-            } else if (outlook <= 0.9) {
-                $('#today-outlook').html('POSITIVE');
-                $('#today-outlook').addClass('positive');
-                $('#today-outlook-value').addClass('positive');
-            }
-            $('#today-outlook-value').html('(' + (outlook >= 0 ? '+' : '') + outlook.toFixed(2) + ')');
+    $.ajax({
+        url: "/worldwide/predictions",
+        success: function (result) {
+            getTodayExpectedCases(result);
         }
-    }
+    });
 
-    function getTodayOutlook(array) {
-        if (array.length > 1) {
-            let outlook = 1.0;
-            const step = 0.1;
-            const outlooks = [];
-            for (let i = 1; i < array.length; i++) {
-                if (array[i] > array [i - 1]) {
-                    outlook += step;
-                } else if (array[i] < array[i - 1]) {
-                    outlook -= step;
-                }
-                outlooks.push({x: i, y: Math.round(outlook * 1000) / 1000});
+    function getTodayExpectedCases(result) {
+        if (result.expectedCasesGrowth > 0) {
+            $('#today-expected-cases').html(result.expectedCases);
+            if (result.expectedCasesGrowth > 0.0 && result.expectedCasesGrowth < 5.0) {
+                $('#today-expected-cases').addClass('neutral');
+                $('#today-expected-cases-percentage').addClass('neutral');
+            } else if (result.expectedCasesGrowth >= 5.0) {
+                $('#today-expected-cases').addClass('negative');
+                $('#today-expected-cases-percentage').addClass('negative');
             }
-            outlookChart.data.datasets.push({
-                label: 'Outlook',
-                data: outlooks,
-                fill: false,
-                borderColor: [
-                    'rgb(82,200,255)',
-                ],
-                borderWidth: 2
-            });
-            outlookChart.update();
-            return outlook;
-        } else return 1;
+            $('#today-expected-cases-percentage').html('(+' + result.expectedCasesGrowth + '%)');
+        } else {
+            $('#today-expected-cases').html(result.lastCasesValue);
+            $('#today-expected-cases-percentage').html('(0%)');
+            $('#today-expected-cases').addClass('positive');
+            $('#today-expected-cases-percentage').addClass('positive');
+        }
+        if (result.outlookValue > 0.9 && result.outlookValue < 1.1) {
+            $('#today-outlook').html('NEUTRAL');
+            $('#today-outlook').addClass('neutral');
+            $('#today-outlook-value').addClass('neutral');
+        } else if (result.outlookValue >= 1.1) {
+            $('#today-outlook').html('NEGATIVE');
+            $('#today-outlook').addClass('negative');
+            $('#today-outlook-value').addClass('negative');
+        } else if (result.outlookValue <= 0.9) {
+            $('#today-outlook').html('POSITIVE');
+            $('#today-outlook').addClass('positive');
+            $('#today-outlook-value').addClass('positive');
+        }
+        $('#today-outlook-value').html('(' + (result.outlookValue >= 0 ? '+' : '') + result.outlookValue + ')');
+
+        outlookChart.data.datasets.push({
+            label: 'Outlook',
+            data: result.outLookArray,
+            fill: false,
+            borderColor: [
+                'rgb(82,200,255)',
+            ],
+            borderWidth: 2
+        });
+        outlookChart.update();
     }
 
     function getWorldwideChartData(data) {

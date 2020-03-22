@@ -6,4 +6,7 @@ module.exports = app => {
 
     //Get today
     app.get('/worldwide/today', worldwide.getToday);
+
+    //Get Predictions
+    app.get('/worldwide/predictions', worldwide.getExpectedToday);
 };
