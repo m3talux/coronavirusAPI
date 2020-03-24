@@ -11,6 +11,7 @@ const Country = function (country) {
     this.active = country.active;
     this.critical = country.critical;
     this.casesPerOneMillion = country.casesPerOneMillion;
+    this.deathsPerOneMillion = country.deathsPerOneMillion;
     this.created = country.created;
     this.updated = country.updated;
 };
@@ -30,9 +31,11 @@ Country.create = (newCountry, result) => {
 
 Country.update = (id, newCountry, result) => {
     const d = new Date().toYMD();
-    sql.query('UPDATE countries SET cases = ?, todayCases = ?, deaths = ?, todayDeaths = ?, recovered = ?, active = ?, critical = ?, casesPerOneMillion = ?, updated = ? WHERE id = ?',
+    sql.query('UPDATE countries SET cases = ?, todayCases = ?, deaths = ?, todayDeaths = ?,' +
+        ' recovered = ?, active = ?, critical = ?, casesPerOneMillion = ?, deathsPerOneMillion = ?, updated = ? WHERE id = ?',
         [newCountry.cases, newCountry.todayCases, newCountry.deaths, newCountry.todayDeaths,
-            newCountry.recovered, newCountry.active, newCountry.critical, newCountry.casesPerOneMillion, d, id],
+            newCountry.recovered, newCountry.active, newCountry.critical, newCountry.casesPerOneMillion,
+            newCountry.deathsPerOneMillion, d, id],
         (err, res) => {
             if (err) {
                 console.log('error: ', err);
