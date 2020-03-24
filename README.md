@@ -1,6 +1,8 @@
 # Coronavirus API
 Coronavirus live statistics API from trusted sources.
 
+Visit the dashboard here: https://api-covid.herokuapp.com/
+
 ## Worldwide Historical Statistics 
 [GET] - https://api-covid.herokuapp.com/worldwide
 
