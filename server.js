@@ -95,7 +95,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         .children("td");
 
     // NOTE: this will change when table format change in website
-    const totalColumns = 11;
+    const totalColumns = 10;
     const countryColIndex = 0;
     const casesColIndex = 1;
     const todayCasesColIndex = 2;
