@@ -58,15 +58,12 @@ exports.getExpectedToday = (req, res) => {
             if (data.length > 1) {
                 const lastCasesValue = data[data.length - 2].cases;
                 const variationPercentages = [];
-                const realVariations = [];
                 let totalVariation = 0;
                 const step = 1 / (data.length - 1);
                 let importance = 1.0;
                 for (let i = 1; i < data.length - 2; i++) {
                     variationPercentages[i - 1] =
                         (Math.abs(data[i].cases - data[i + 1].cases) / data[i].cases) * importance * 100;
-                    realVariations[i - 1] =
-                        (Math.abs(data[i].cases - data[i + 1].cases) / data[i].cases) * 100;
                     totalVariation += variationPercentages[i - 1];
                     importance += step;
                 }
