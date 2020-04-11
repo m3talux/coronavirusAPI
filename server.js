@@ -95,7 +95,8 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         .children("td");
 
     // NOTE: this will change when table format change in website
-    const totalColumns = 10;
+    const colCount = html('table#main_table_countries_today th').length;
+    const totalColumns = colCount;
     const countryColIndex = 0;
     const casesColIndex = 1;
     const todayCasesColIndex = 2;
@@ -123,7 +124,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
             country = country.trim();
             if (country.length === 0) {
                 // parse with hyperlink
-                country = cell.children[0].next.children[0].data || "";
+                country = cell.children[0].next.children[0] && cell.children[0].next.children[0].data || "";
             }
             result.push({country: country.trim() || ""});
         }

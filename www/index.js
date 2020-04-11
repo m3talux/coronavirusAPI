@@ -161,11 +161,11 @@ $(function () {
             $('#today-outlook').addClass('neutral');
             $('#today-outlook-value').addClass('neutral');
         } else if (result.outlookValue >= 1.1) {
-            $('#today-outlook').html('NEGATIVE');
+            $('#today-outlook').html('INCREASING');
             $('#today-outlook').addClass('negative');
             $('#today-outlook-value').addClass('negative');
         } else if (result.outlookValue <= 0.9) {
-            $('#today-outlook').html('POSITIVE');
+            $('#today-outlook').html('DECREASING');
             $('#today-outlook').addClass('positive');
             $('#today-outlook-value').addClass('positive');
         }
