@@ -201,12 +201,16 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
     }
 
+    const countriesToIgnore = ['World', 'Europe', 'North America', 'Asia', 'South America', 'Africa', 'Oceania', 'Total:'];
+
     for (let res of result) {
-        const d = new Date();
-        res.created = d.toYMD();
-        res.updated = d.toYMD();
-        const countryController = require('./app/controllers/country.controller');
-        countryController.createOrUpdate(res);
+        if (countriesToIgnore.indexOf(res.country) === -1) {
+            const d = new Date();
+            res.created = d.toYMD();
+            res.updated = d.toYMD();
+            const countryController = require('./app/controllers/country.controller');
+            countryController.createOrUpdate(res);
+        }
     }
 }, 600000);
 
