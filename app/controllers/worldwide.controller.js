@@ -70,7 +70,7 @@ exports.getExpectedToday = (req, res) => {
                     totalVariation += variationPercentages[i - 1];
                     importance += step;
                 }
-                const outlook = getTodayOutlook(variationPercentages);
+                const outlook = getTodayOutlook(realVariations);
                 const percentageIncrease = totalVariation / variationPercentages.length * outlook.outlookValue;
                 const expected = Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100));
                 const actualGrowth = Math.abs((lastCasesValue - data[data.length - 1].cases) / data[data.length - 1].cases) * 100;
