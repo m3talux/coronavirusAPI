@@ -209,7 +209,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         const countryController = require('./app/controllers/country.controller');
         countryController.createOrUpdate(res);
     }
-}, 60000);
+}, 600000);
 
 require('./app/routes/worldwide.routes')(app);
 require('./app/routes/country.routes')(app);
