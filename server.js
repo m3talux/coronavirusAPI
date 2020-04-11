@@ -202,7 +202,7 @@ const getAllStatisticsPerCountry = setInterval(async () => {
         }
     }
 
-    const countriesToIgnore = ['World', 'Europe', 'North America', 'Asia', 'South America', 'Africa', 'Oceania', 'Total:'];
+    const countriesToIgnore = ['World', 'Europe', 'North America', 'Asia', 'South America', 'Africa', 'Oceania', 'Total:', ''];
 
     for (let res of result) {
         if (countriesToIgnore.indexOf(res.country) === -1) {
