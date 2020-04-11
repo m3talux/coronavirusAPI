@@ -41,7 +41,7 @@ $(function () {
                     },
                     ticks: {
                         autoSkip: true,
-                        maxTicksLimit: 20
+                        maxTicksLimit: 8
                     }
                 }],
                 yAxes: [{
@@ -103,15 +103,19 @@ $(function () {
         url: "/worldwide/today",
         success: function (result) {
             const active = result.cases - (result.deaths + result.recovered)
-            $("#today-cases").html(result.cases);
-            $("#today-active").html(active);
-            $("#today-deaths").html(result.deaths);
-            $("#today-recovered").html(result.recovered);
+            $("#today-cases").html(numberWithCommas(result.cases));
+            $("#today-active").html(numberWithCommas(active));
+            $("#today-deaths").html(numberWithCommas(result.deaths));
+            $("#today-recovered").html(numberWithCommas(result.recovered));
             $("#today-active-percentage").html('(' + (active / result.cases * 100).toFixed(1) + '%)');
             $("#today-deaths-percentage").html('(' + (result.deaths / result.cases * 100).toFixed(1) + '%)');
             $("#today-recovered-percentage").html('(' + (result.recovered / result.cases * 100).toFixed(1) + '%)');
         }
     });
+
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
     $.ajax({
         url: "/worldwide",
@@ -131,7 +135,7 @@ $(function () {
     });
 
     function getTodayExpectedCases(result) {
-        $('#today-actual-cases').html(result.actualCasesValue);
+        $('#today-actual-cases').html(numberWithCommas(result.actualCasesValue));
         $('#today-actual-cases-percentage').html('(+' + result.actualCasesGrowth + '%)');
         if (result.actualCasesValue > result.expectedCases) {
             $('#today-actual-cases').addClass('negative');
@@ -141,7 +145,7 @@ $(function () {
             $('#today-actual-cases-percentage').addClass('positive');
         }
         if (result.expectedCasesGrowth > 0) {
-            $('#today-expected-cases').html(result.expectedCases);
+            $('#today-expected-cases').html(numberWithCommas(result.expectedCases));
             if (result.expectedCasesGrowth > 0.0 && result.expectedCasesGrowth < 5.0) {
                 $('#today-expected-cases').addClass('neutral');
                 $('#today-expected-cases-percentage').addClass('neutral');
