@@ -105,9 +105,9 @@ exports.getExpectedToday = (req, res) => {
             const step = 0.1;
             const outlooks = [];
             for (let i = 1; i < array.length; i++) {
-                if (array[i] > array [i - 1] + 1) {
+                if (array[i] > array [i - 1] + 0.5) {
                     outlook += (step + 0.005);
-                } else if (array[i] < array[i - 1] - 1) {
+                } else if (array[i] < array[i - 1] - 0.5) {
                     outlook -= step;
                 }
                 outlooks.push({x: i, y: Math.round(outlook * 100) / 100});
