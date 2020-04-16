@@ -58,16 +58,19 @@ exports.getExpectedToday = (req, res) => {
             if (data.length > 1) {
                 const lastCasesValue = data[data.length - 2].cases;
                 const variationPercentages = [];
+                const realVariationPercentages = [];
                 let totalVariation = 0;
                 const step = 1 / (data.length - 1);
                 let importance = 1.0;
                 for (let i = 1; i < data.length - 2; i++) {
                     variationPercentages[i - 1] =
                         (Math.abs(data[i].cases - data[i + 1].cases) / data[i].cases) * importance * 100;
+                    realVariationPercentages[i - 1] =
+                        (Math.abs(data[i].cases - data[i + 1].cases) / data[i].cases) * 100;
                     totalVariation += variationPercentages[i - 1];
                     importance += step;
                 }
-                const outlook = getTodayOutlook(variationPercentages);
+                const outlook = getTodayOutlook(realVariationPercentages);
                 const percentageIncrease = totalVariation / variationPercentages.length * outlook.outlookValue;
                 const expected = Math.round(lastCasesValue + (lastCasesValue * percentageIncrease / 100));
                 const actualGrowth = Math.abs((lastCasesValue - data[data.length - 1].cases) / data[data.length - 1].cases) * 100;
