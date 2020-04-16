@@ -109,7 +109,7 @@ exports.getExpectedToday = (req, res) => {
             const outlooks = [];
             for (let i = 1; i < array.length; i++) {
                 if (array[i] > array [i - 1] + 1) {
-                    outlook += (step + 0.005);
+                    outlook += step;
                 } else if (array[i] < array[i - 1] - 1) {
                     outlook -= step;
                 }
